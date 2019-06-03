@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import ConfirmRegistration from "./pages/Events/ConfirmRegistration"
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -24,10 +25,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <PrivateRoute exact path="/" component={Home} />
       <Route path="/login" component={SignIn} />
       <Route path="/signup" component={SignUp} />
-      <Route path="*" component={NotFound} />
+      <PrivateRoute exact path="/" component={Home} />
+      <PrivateRoute exact path="/confirm-registration/:idEvent/:idUser" component={ConfirmRegistration} />
+      <PrivateRoute path="*" component={NotFound} />
     </Switch>
   </BrowserRouter>
 );
