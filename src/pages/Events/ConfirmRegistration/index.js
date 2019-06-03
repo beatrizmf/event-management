@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Main from "../../../components/Main"
 import { Link } from "react-router-dom";
 import api from "../../../services/api"
-import chalk from "chalk";
 
 class ConfirmRegistration extends Component {
 
@@ -37,7 +36,6 @@ class ConfirmRegistration extends Component {
         classMessage: "danger"
       })
     }
-
   }
 
   render() {
