@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Sidebar from '../../components/Sidebar'
-
+import Main from '../../components/Main'
 class Home extends Component {
 
   componentDidMount = () => {
@@ -10,9 +9,9 @@ class Home extends Component {
 
   render() {
     return (
-        <div id="wrapper">
-          <Sidebar />
-        </div>
+        <Main>
+          <p>Open events...</p>
+        </Main>
     );
   }
 }

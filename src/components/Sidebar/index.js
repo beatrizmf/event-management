@@ -7,7 +7,7 @@ class Sidebar extends Component {
   handleLogout = async e => {
     e.preventDefault();
     try {
-      await logout();
+      logout();
       this.props.history.push("/");
     } catch (err) {
       console.log(err);
@@ -17,19 +17,19 @@ class Sidebar extends Component {
   render() {
     return (
       <ul className="navbar-nav bg-warning sidebar sidebar-dark accordion" id="accordionSidebar">
-        <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
           <div className="sidebar-brand-icon rotate-n-15">
-            <i className="fas fa-laugh-wink"></i>
+            <i className="fas fa-calendar-check"></i>
           </div>
           <div className="sidebar-brand-icon rotate-n-15">          
           </div>
           <div className="sidebar-brand-text mx-3">Event Management</div>
-        </a>
+        </Link>
         <hr className="sidebar-divider my-0" />
         <li className="nav-item active">
           <span className="nav-link">
-            <i className="fas fa-fw fa-tachometer-alt"></i>
-            <span>Home</span>
+            <i className="fas fa-fw fa-home"></i>
+            <Link className="text-decoration-none text-white" to="/home">Home</Link>
           </span>
         </li>
         <hr className="sidebar-divider" />
@@ -49,14 +49,14 @@ class Sidebar extends Component {
         <li className="nav-item">
           <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
-            <i className="fas fa-fw fa-wrench"></i>
+            <i className="fas fa-fw fa-user-alt"></i>
             <span>Profile</span>
           </a>
           <div id="collapseUtilities" className="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div className="bg-white py-2 collapse-inner rounded">            
-              <Link className="text-decoration-none" to="user/events"><span className="collapse-item">My events</span></Link>
-              <Link className="text-decoration-none" to="user/settings"><span className="collapse-item">Settings</span></Link>
+              <Link className="text-decoration-none" to="/user/events"><span className="collapse-item">My events</span></Link>
+              <Link className="text-decoration-none" to="/user/settings"><span className="collapse-item">Settings</span></Link>
               <Link className="text-decoration-none" to="/"><span className="collapse-item" onClick={this.handleLogout}>Log out</span></Link>
             </div>
           </div>
