@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { login } from "../../services/auth";
 
@@ -32,7 +32,7 @@ class SignIn extends Component {
           password
         });
         login(response.data.token);
-        this.props.history.push("/app");
+        this.props.history.push("/home");
       } catch (err) {
         console.log(err);
         this.setState({
@@ -85,4 +85,4 @@ class SignIn extends Component {
   }
 }
 
-export default withRouter(SignIn);
+export default SignIn;

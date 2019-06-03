@@ -20,11 +20,11 @@ class SignUp extends Component {
     e.preventDefault();
     const { fullName, email, password } = this.state;
     if (!fullName || !email || !password) {
-      this.setState({ message: "fill in all the fields to register! ⚠" });
+      this.setState({ message: "Fill in all the fields to register!" });
     } else {
       try {
         this.setState({
-          message: "loading... 🕐"
+          message: "Loading..."
         });
         const response = await api.post("/users", {
           fullName,
@@ -32,11 +32,11 @@ class SignUp extends Component {
           password
         });
         login(response.data.token);
-        this.props.history.push("/app");
+        this.props.history.push("/home");
       } catch (err) {
         console.log(err);
         this.setState({
-          message: "An account with this email already exists. 😕"
+          message: "An account with this email already exists."
         });
       }
     }
