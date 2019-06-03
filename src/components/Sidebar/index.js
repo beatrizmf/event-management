@@ -8,7 +8,7 @@ class Sidebar extends Component {
     e.preventDefault();
     try {
       logout();
-      this.props.history.push("/");
+      this.props.history.push("/login");
     } catch (err) {
       console.log(err);
     }
@@ -17,11 +17,9 @@ class Sidebar extends Component {
   render() {
     return (
       <ul className="navbar-nav bg-warning sidebar sidebar-dark accordion" id="accordionSidebar">
-        <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/home">
+        <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
           <div className="sidebar-brand-icon rotate-n-15">
             <i className="fas fa-calendar-check"></i>
-          </div>
-          <div className="sidebar-brand-icon rotate-n-15">          
           </div>
           <div className="sidebar-brand-text mx-3">Event Management</div>
         </Link>
@@ -29,7 +27,7 @@ class Sidebar extends Component {
         <li className="nav-item active">
           <span className="nav-link">
             <i className="fas fa-fw fa-home"></i>
-            <Link className="text-decoration-none text-white" to="/home">Home</Link>
+            <Link className="text-decoration-none text-white" to="/">Home</Link>
           </span>
         </li>
         <hr className="sidebar-divider" />

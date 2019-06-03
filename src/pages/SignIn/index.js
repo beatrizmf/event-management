@@ -32,7 +32,7 @@ class SignIn extends Component {
           password
         });
         login(response.data.token);
-        this.props.history.push("/home");
+        this.props.history.push("/");
       } catch (err) {
         console.log(err);
         this.setState({
@@ -54,7 +54,7 @@ class SignIn extends Component {
                   <div className="col-lg-6">
                     <div className="p-5 mt-5 mb-5">
                       <div className="text-center">
-                        <h1 className="h2 text-gray-900 mb-4">Event Management</h1>
+                        <h1 className="h2 text-gray-900 mb-4">Event Management <i className="rotate-n-15 fas fa-calendar-check"></i></h1>
                         <hr/>
                         <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                         {this.state.message && <span className="btn btn-light btn-sm mb-4">{this.state.message}</span>}

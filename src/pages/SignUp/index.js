@@ -32,7 +32,7 @@ class SignUp extends Component {
           password
         });
         login(response.data.token);
-        this.props.history.push("/home");
+        this.props.history.push("/");
       } catch (err) {
         console.log(err);
         this.setState({
@@ -55,7 +55,7 @@ class SignUp extends Component {
                   <div className="col-lg-6">
                     <div className="p-5 mt-2 mb-2 ">
                       <div className="text-center">
-                        <h1 className="h2 text-gray-900 mb-4">Event Management</h1>
+                        <h1 className="h2 text-gray-900 mb-4">Event Management <i className="rotate-n-15 fas fa-calendar-check"></i></h1>
                         <hr />
                         <h1 className="h4 text-gray-900 mb-4">Create an account!</h1>
                         {this.state.message && <span className="btn btn-light btn-sm mb-4">{this.state.message}</span>}
