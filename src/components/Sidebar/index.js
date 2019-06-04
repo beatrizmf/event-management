@@ -4,11 +4,10 @@ import { logout } from "../../services/auth";
 
 class Sidebar extends Component {
 
-  handleLogout = async e => {
-    e.preventDefault();
+  handleLogout = async props => {
     try {
-      logout();
-      this.props.history.push("/login");
+      await logout();
+      window.location.reload()
     } catch (err) {
       console.log(err);
     }
@@ -55,7 +54,7 @@ class Sidebar extends Component {
             <div className="bg-white py-2 collapse-inner rounded">            
               <Link className="text-decoration-none" to="/user/events"><span className="collapse-item">My events</span></Link>
               <Link className="text-decoration-none" to="/user/settings"><span className="collapse-item">Settings</span></Link>
-              <Link className="text-decoration-none" to="/"><span className="collapse-item" onClick={this.handleLogout}>Log out</span></Link>
+              <Link className="text-decoration-none" to="/"><span className="collapse-item" onClick={this.handleLogout}>Logout</span></Link>
             </div>
           </div>
         </li>
