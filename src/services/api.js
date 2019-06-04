@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "./auth";
 
 const api = axios.create({
-  baseURL: "https://event-management-api.herokuapp.com/api/"
+  baseURL: "https://event-management-api.herokuapp.com/api"
 });
 
 api.interceptors.request.use(async config => {

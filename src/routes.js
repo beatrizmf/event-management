@@ -27,8 +27,8 @@ const Routes = () => (
     <Switch>
       <Route path="/login" component={SignIn} />
       <Route path="/signup" component={SignUp} />
-      <PrivateRoute exact path="/" component={Home} />
       <Route exact path="/confirm-registration/:idEvent/:idUser" component={ConfirmRegistration} />
+      <PrivateRoute exact path="/" component={Home} />
       <PrivateRoute path="*" component={NotFound} />
     </Switch>
   </BrowserRouter>

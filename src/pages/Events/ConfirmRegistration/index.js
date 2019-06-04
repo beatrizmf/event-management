@@ -20,7 +20,7 @@ class ConfirmRegistration extends Component {
 
     try {
       this.setState({
-        message: "Loading.."
+        message: "Loading..."
       })
       
       await api.post(`/subscriptions/confirm/${idEvent}/${ idUser}`);
@@ -40,11 +40,11 @@ class ConfirmRegistration extends Component {
 
   render() {
     return (
-      <Main>
         <div className="row text-center">
           <div className="col-md-3"></div>
           <div className="col-md-6">
-            <div class={`card mb-4 py-3 border-bottom-${this.state.classMessage}`}>
+            <h1 className="mt-5 h2 text-gray-900 mb-4">Event Management <i className="rotate-n-15 fas fa-calendar-check"></i></h1>
+            <div class={`bg-light mt-5 card mb-4 py-3 border-bottom-${this.state.classMessage}`}>
               <div class="card-body">
                 {this.state.message && <p>{this.state.message}</p>}
               </div>
@@ -54,7 +54,6 @@ class ConfirmRegistration extends Component {
             <Link to="/">← Back to Home</Link>
           </div>
         </div>
-      </Main>
     );
   }
 }
