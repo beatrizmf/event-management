@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import Main from "../../../components/Main"
 import { Link } from "react-router-dom";
 import api from "../../../services/api"
 
 class ConfirmRegistration extends Component {
-
   state = {
     message: "",
     classMessage: "primary"
