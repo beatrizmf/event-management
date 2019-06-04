@@ -44,7 +44,7 @@ class ConfirmRegistration extends Component {
           <div className="col-md-3"></div>
           <div className="col-md-6">
             <h1 className="mt-5 h2 text-gray-900 mb-4">Event Management <i className="rotate-n-15 fas fa-calendar-check"></i></h1>
-            <div class={`bg-light mt-5 card mb-4 py-3 border-bottom-${this.state.classMessage}`}>
+            <div class={`bg-light m-4 mt-5 card mb-4 py-3 border-bottom-${this.state.classMessage}`}>
               <div class="card-body">
                 {this.state.message && <p>{this.state.message}</p>}
               </div>
