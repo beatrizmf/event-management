@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Main from '../../components/Main'
+import ListOpenEvents from '../Events/ListOpenEvents';
+
 class Home extends Component {
 
   componentDidMount = () => {
@@ -10,7 +12,7 @@ class Home extends Component {
   render() {
     return (
         <Main>
-          <p>Open events...</p>
+          <ListOpenEvents />
         </Main>
     );
   }
