@@ -46,7 +46,7 @@ class ListEventsAdministrator extends Component {
 											</button>
 										</div>
 										<div className="mt-2 mx-2">
-											<button className="btn btn-danger btn-icon-split btn-block" data-toggle="modal" data-target="modalDelete">
+											<button className="btn btn-danger btn-icon-split btn-block" data-toggle="modal" data-target="#modalDelete">
 												<span className="icon text-white-50">
 													<i className="fas fa-trash"></i>
 												</span>
@@ -62,7 +62,7 @@ class ListEventsAdministrator extends Component {
 							<div className="modal-dialog modal-dialog-centered" role="document">
 								<div className="modal-content">
 									<div className="modal-header">
-										<h5 className="modal-title" id="exampleModalLongTitle">Delete</h5>
+										<h5 className="modal-title" id="exampleModalLongTitle">Delete Event</h5>
 										<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
@@ -71,8 +71,8 @@ class ListEventsAdministrator extends Component {
 										Do you really want to delete the event?
 									</div>
 									<div className="modal-footer">
-										<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" className="btn btn-primary">Save changes</button>
+										<button type="button" className="btn btn-danger" data-dismiss="modal">Confirm</button>
+										<button type="button" className="btn btn-success">Cancel</button>
 									</div>
 								</div>
 							</div>
