@@ -6,15 +6,22 @@ class ListOpenEvents extends Component {
 
   state = {
     openEvents: [],
-    userId: '5cf59c107f7d1300179d1e01',
-    status: {
-      text: 'Subscribe',
-      className: 'success'
-    }
+    userId: '',
   }
 
   componentDidMount = () => {
+    this.getUserId();
     this.handleGetOpenEvents();
+  }
+
+  getUserId = async () => {
+    try{
+      const response = await api.get('/users/getId');
+      const userId = response.data;
+      this.setState({ userId: userId })
+    } catch(err){
+      console.log(err)
+    }
   }
 
   handleGetOpenEvents = async () => {
@@ -26,17 +33,50 @@ class ListOpenEvents extends Component {
     }
   }
 
-  handleSubscribeStatus = async (event) => {
+  handleSubscribeStatus = (event) => {
     try {
+      let userErrolled = false;
+      let userErrolledConfirmed = false;
+
       event.enrolleds.map(enrolled => {
         if (enrolled == this.state.userId) {
-          let status = { text: 'Cancel', className: 'danger' };
-          return status;
+          userErrolled = true;
         }
       })
 
-      let status = { text: 'Subscription', className: 'success' };
-      return status;
+      event.confirmedEnrolleds.map(enrolled => {
+        if (enrolled == this.state.userId) {
+          userErrolledConfirmed = true;
+        }
+      })
+
+      if (userErrolled && !userErrolledConfirmed) {
+        return (
+          <button
+            className={`col-sm-12 col-md-6 col-lg-6 btn btn-warning text float-right mt-sm-1 mt-lg-0`}
+          >
+            <span className="icon text-white-50"><i className="fas fa-exclamation"></i></span> Waiting Confirmation
+          </button>
+        );
+      } else if (userErrolled && userErrolledConfirmed) {
+        return (
+          <button
+            className={`col-sm-12 col-md-6 col-lg-6 btn btn-success text float-right mt-sm-1 mt-lg-0`}
+          >
+            <span className="icon text-white-50"><i className="fas fa-check"></i></span> Subscribtion Confirmed
+          </button>
+        );
+      } else {
+        return (
+          <button
+            className={`col-sm-12 col-md-6 col-lg-4 btn btn-primary text float-right mt-sm-1 mt-lg-0`}
+            onClick={() => (this.handleSubscribeEvent(event._id))}
+          >
+            <span className="icon text-white-50"><i className="fas fa-plus"></i></span> Subscribe
+          </button>
+        );
+      }
+
     } catch (err) {
       console.log(err)
     }
@@ -54,13 +94,14 @@ class ListOpenEvents extends Component {
   render() {
     return (
       <div className="row">
+        <div className="col-sm-12 mb-5 text-center">
+          <h1>Open events, enjoy! ;)</h1>
+          <hr />
+        </div>
         {
           this.state.openEvents.map(event => (
             dateFns.isFuture(event.startsIn) ?
               <>
-                {/*() => this.setState({ status: this.handleSubscribeStatus(event)}) */
-                  console.log(this.handleSubscribeStatus(event))
-                }
                 <div className="col-sm-6 col-lg-4">
                   <div className="card shadow mb-4">
                     <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -70,12 +111,7 @@ class ListOpenEvents extends Component {
                       <button className="col-sm-12 col-md-6 col-lg-4 btn btn-info text" data-toggle="modal" data-target={`#eventDetails-${event._id}`}>
                         <span className="icon text-white-50"><i className="fas fa-info-circle"></i></span> Details
                     </button>
-                      <button
-                        className={`col-sm-12 col-md-6 col-lg-4 btn btn-${this.state.status.className} text float-right mt-sm-1 mt-lg-0`}
-                        onClick={() => (this.handleSubscribeEvent(event._id))}
-                      >
-                        <span className="icon text-white-50"><i className="fas fa-plus"></i></span> {this.state.status.text}
-                      </button>
+                      {this.handleSubscribeStatus(event)}
                     </div>
                   </div>
                 </div>
@@ -113,7 +149,7 @@ class ListOpenEvents extends Component {
                   </div>
                 </div>
               </>
-              : <>('')</>
+              : <></>
           ))
         }
       </div>
