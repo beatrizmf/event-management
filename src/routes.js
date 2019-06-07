@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import ConfirmRegistration from "./pages/Events/ConfirmRegistration"
+import CreateEvents from './pages/Events/CreateEvents'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -29,6 +30,7 @@ const Routes = () => (
       <Route path="/signup" component={SignUp} />
       <Route exact path="/confirm-registration/:idEvent/:idUser" component={ConfirmRegistration} />
       <PrivateRoute exact path="/" component={Home} />
+      <PrivateRoute path="/admin/events/create" component={CreateEvents} />
       <PrivateRoute path="*" component={NotFound} />
     </Switch>
   </BrowserRouter>
