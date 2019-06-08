@@ -38,8 +38,8 @@ class Sidebar extends Component {
           </a>
           <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div className="bg-white py-2 collapse-inner rounded">
-              <Link className="text-decoration-none" to="admin/events"><span className="collapse-item">Events</span></Link>
-              <Link className="text-decoration-none" to="admin/events/create"><span className="collapse-item">New Event</span></Link>
+              <Link className="text-decoration-none" to="/admin/events"><span className="collapse-item">Events</span></Link>
+              <Link className="text-decoration-none" to="/admin/events/create"><span className="collapse-item">New Event</span></Link>
             </div>
           </div>
         </li>
