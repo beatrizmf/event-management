@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import api from '../../../services/api';
+import io from 'socket.io-client'
+;import api from '../../../services/api';
 import dateFns from 'date-fns';
 
 class ListOpenEvents extends Component {
@@ -11,7 +12,20 @@ class ListOpenEvents extends Component {
 
   componentDidMount = () => {
     this.getUserId();
+    this.handleSocket();
     this.handleGetOpenEvents();
+  }
+
+  handleSocket = async () => {
+    const socket = io('https://event-management-api.herokuapp.com', {transports: ['websocket']})
+
+    await socket.on('event', () => {
+      this.handleGetOpenEvents()
+    })
+
+    await socket.on('subscription', () => {
+      this.handleGetOpenEvents()
+    })
   }
 
   getUserId = async () => {
