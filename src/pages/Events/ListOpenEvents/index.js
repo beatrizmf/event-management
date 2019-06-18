@@ -24,12 +24,12 @@ class ListOpenEvents extends Component {
     }
   }
 
-  handleGetOpenEvents = async () => {
+  handleGetOpenEvents = async e => {
     try {
       const response = await api.get('/events');
       this.setState({ openEvents: response.data });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
 
@@ -139,8 +139,8 @@ class ListOpenEvents extends Component {
                           )}
                         <p>{event.description}</p>
                         <hr />
-                        <p><span className="font-weight-bolder">Stars in:</span> {dateFns.format(event.startsIn, 'MM/DD/YYYY HH:mm')}</p>
-                        <p><span className="font-weight-bolder">Ends in:</span> {dateFns.format(event.endsIn, 'MM/DD/YYYY HH:mm')}</p>
+                        <p><span className="font-weight-bolder">Stars in:</span> {dateFns.format(event.startsIn, 'MM/DD/YYYY, HH:mm')}</p>
+                        <p><span className="font-weight-bolder">Ends in:</span> {dateFns.format(event.endsIn, 'MM/DD/YYYY, HH:mm')}</p>
                       </div>
                       <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
