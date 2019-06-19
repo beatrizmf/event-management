@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import ConfirmRegistration from "./pages/Events/ConfirmRegistration"
 import CreateEvents from './pages/Events/CreateEvents'
 import ListEventsAdministrator from "./pages/Events/ListEventsAdministrator";
+import ListEventsUser from "./pages/Events/ListEventsUser";
 import FrequencyList from "./pages/Events/FrequencyList";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -34,6 +35,7 @@ const Routes = () => (
       <Route exact path="/confirm-registration/:idEvent/:idUser" component={ConfirmRegistration} />
 
       <PrivateRoute exact path="/" component={Home} />
+      <PrivateRoute exact path="/user/events" component={ListEventsUser} />
       <PrivateRoute exact path="/admin/events" component={ListEventsAdministrator} />
       <PrivateRoute exact path="/admin/events/create" component={CreateEvents} />
       <PrivateRoute exact path="/admin/events/frequency/:idEvent" component={FrequencyList} />

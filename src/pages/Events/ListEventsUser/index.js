@@ -3,12 +3,13 @@ import io from 'socket.io-client'
 import api from '../../../services/api';
 import dateFns from 'date-fns';
 
+import Main from '../../../components/Main';
+
 class ListOpenEvents extends Component {
 
   state = {
     openEvents: [],
     userId: '',
-    userName: ''
   }
 
   componentDidMount = () => {
@@ -33,13 +34,7 @@ class ListOpenEvents extends Component {
     try {
       const response = await api.get('/users/getId');
       const userId = response.data;
-
-      console.log(await api.get('/users/getId'))
-
-      const responseUser = await api.get(`/users/${userId}`)
-      const userName = responseUser.data.fullName;
-
-      this.setState({ userId, userName })
+      this.setState({ userId: userId })
     } catch (err) {
       console.log(err)
     }
@@ -47,7 +42,7 @@ class ListOpenEvents extends Component {
 
   handleGetOpenEvents = async e => {
     try {
-      const response = await api.get('/events');
+      const response = await api.get('/users/events');
       this.setState({ openEvents: response.data });
     } catch (err) {
       console.log(err);
@@ -114,15 +109,15 @@ class ListOpenEvents extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-sm-12 mb-5 text-center">
-          {this.state.userName && <h1>Welcome, {this.state.userName}! 🤗</h1>}
-          <h2>Open events, enjoy! ;)</h2>
-          <hr />
-        </div>
-        {
-          this.state.openEvents.map(event => (
-            dateFns.isFuture(event.startsIn) ?
+      <Main>
+
+        <div className="row">
+          <div className="col-sm-12 mb-5 text-center">
+            <h1>Your events! ;)</h1>
+            <hr />
+          </div>
+          {
+            this.state.openEvents.map(event => (
               <>
                 <div className="col-sm-6 col-lg-4">
                   <div className="card shadow mb-4">
@@ -171,10 +166,10 @@ class ListOpenEvents extends Component {
                   </div>
                 </div>
               </>
-              : <></>
-          ))
-        }
-      </div>
+            ))
+          }
+        </div>
+      </Main>
     );
   }
 }
