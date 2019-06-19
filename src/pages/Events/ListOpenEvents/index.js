@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import io from 'socket.io-client'
-;import api from '../../../services/api';
+import api from '../../../services/api';
 import dateFns from 'date-fns';
 
 class ListOpenEvents extends Component {

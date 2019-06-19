@@ -30,13 +30,13 @@ const Routes = () => (
     <Switch>
       <Route path="/login" component={SignIn} />
       <Route path="/signup" component={SignUp} />
-      
+
       <Route exact path="/confirm-registration/:idEvent/:idUser" component={ConfirmRegistration} />
 
       <PrivateRoute exact path="/" component={Home} />
       <PrivateRoute exact path="/admin/events" component={ListEventsAdministrator} />
       <PrivateRoute exact path="/admin/events/create" component={CreateEvents} />
-      <PrivateRoute exact path="/admin/subscriptions/presents/:idEvent" component={FrequencyList} />
+      <PrivateRoute exact path="/admin/events/frequency/:idEvent" component={FrequencyList} />
       <PrivateRoute path="*" component={NotFound} />
     </Switch>
   </BrowserRouter>

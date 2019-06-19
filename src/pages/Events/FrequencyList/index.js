@@ -1,48 +1,70 @@
 import React, { Component } from "react";
-import Main from '../../../components/Main';
+import io from 'socket.io-client'
+import Main from "../../../components/Main";
 import api from "../../../services/api";
 
 class FrequencyList extends Component {
-	state = {
-        message: "",
-        confirmedList: []
-	}
+  state = {
+    message: "",
+    event: [],
+    idEvent: ''
+  };
 
-    componentDidMount = () => {
-        this.handleFrequencyList()
+  componentDidMount = async () => {
+    const { idEvent } = this.props.match.params;
+    this.setState({ idEvent })
+
+    const response = await api.get(`/events/${this.state.idEvent}`);
+
+    this.setState({ event: response.data })
+
+    this.handleFrequencyList();
+  };
+
+  handleSocket = async () => {
+    const socket = io('https://event-management-api.herokuapp.com', {transports: ['websocket']})
+
+    await socket.on('presence', () => {
+      this.handleFrequencyList()
+    })
+  }
+
+  handleConfirmPresence = async (userId) => {
+    try{
+      await api.post(`/subscriptions/presents/${this.state.idEvent}/${userId }`)
+
+    } catch(err){
+      console.log(err);
     }
+  }
 
-    handleFrequencyList = async e => {
-        const { idEvent } = this.props.match.params;
+  handleFrequencyStatus = (userId) => {
 
-        try{
-            const response = await api.post(`/subscriptions/presents/${idEvent}`);
-            response.confirmedEnrolleds.map( participant => {
-                    this.setState({confirmedList: participant})
-            })
+  }
 
-            this.setState({ 
-                message: "Your frequency list stay here! "
-            })
+  handleFrequencyList = async e => {
+    try {
+      if (this.state.event.confirmedEnrolleds.length < 1) {
+        this.setState({ message: "Empty list! :(" });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-        } catch (err) {
-            console.log(err);
-            this.setState({ message: "Something went wrong" })
+  render() {
+    return (
+      <Main>
+        {
+          console.log(this.state.event.confirmedEnrolleds)
+          /*this.state.event.confirmedEnrolleds.map( user => (
+            <p>{user.email}</p>
+            // {this.handleFrequencyStatus(user._id)}
+          ))*/
         }
-    }
-    
-
-
-	render() {
-		return (
-			<Main>
-				{
-					<>
-					</>
-				}
-			</Main>
-		);
-	}
+      </Main>
+    );
+  }
 }
 
 export default FrequencyList;
