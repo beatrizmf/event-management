@@ -1,6 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Electron
+
+### `npm run build`
+
+### Move the file /build-electron/electron.js for /build !!!###
+
+### `npm run electron-build`
+
+Open your app desktop in /dist
 
 ## Available Scripts
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 In the project directory, you can run:
 
