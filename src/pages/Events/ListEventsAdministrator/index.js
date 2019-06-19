@@ -49,7 +49,7 @@ class ListEventsAdministrator extends Component {
 													<span className="icon text-white-50">
 														<i className="fas fa-info-circle"></i>
 													</span>
-													<Link className="text-decoration-none text text-white" to={`admin/subscriptions/presents/${event._id}`}>Attendance</Link>
+													<Link className="text-decoration-none text text-white" to={`/admin/events/frequency/${event._id}`}>Attendance</Link>
 												</button>
 											</div>
 											<div className="mt-2 mx-2">
