@@ -2,7 +2,7 @@
 
 ### `npm run build`
 
-### Move the file /build-electron/electron.js for /build !!!###
+### Move the file /build-electron/electron.js for /build !!! 🚨
 
 ### `npm run electron-build`
 
