@@ -7,9 +7,9 @@ class FrequencyList extends Component {
   state = {
     message: "",
     event: [],
-    totalConfirmed: null,
-    pendingPresences: null,
-    confirmedPresences: null
+    totalConfirmed: 0,
+    totalPresents: 0,
+    confirmedEnrolleds: []
   };
 
   componentDidMount = async () => {
@@ -18,81 +18,80 @@ class FrequencyList extends Component {
     const response = await api.get(`/events/${idEvent}`);
 
     this.setState({ event: response.data })
+    this.setState({ confirmedEnrolleds: this.state.event.confirmedEnrolleds })
+
     this.handleFrequencyList();
     this.setTotalConfirmeds(this.state.event.confirmedEnrolleds);
-    this.setPendingPresences(this.state.event);
-    this.setConfirmedPresences(this.state.event);
-    
+    this.setTotalPresents(this.state.event.presents);
+
   };
 
-  handleSocket = async () => {
+  handleSocket = () => {
     const socket = io('https://event-management-api.herokuapp.com', {transports: ['websocket']})
 
-    await socket.on('presence', () => {
+    socket.on('presence', () => {
       this.handleFrequencyList()
+      this.setTotalConfirmeds(this.state.event.presents)
+      this.setTotalPresents(this.state.event.presents)
+      this.renderListConfirmedEnrolleds()
+
     })
   }
 
   handleConfirmPresence = async (userId) => {
     try{
-      await api.post(`/subscriptions/presents/${this.state.idEvent}/${userId }`)
+      await api.post(`/subscriptions/presents/${this.state.event._id}/${userId }`)
 
     } catch(err){
       console.log(err);
     }
   }
 
-  setTotalConfirmeds = (eventInformation) => {
+  setTotalConfirmeds = (confirmedEnrolleds) => {
     try{
       let totalConfirmed = 0;
-      eventInformation.map(() => totalConfirmed++);
-      
-      this.setState({ totalConfirmed: totalConfirmed })
+      confirmedEnrolleds.map(() => totalConfirmed++);
+
+      this.setState({ totalConfirmed })
 
     } catch (err) {
       console.log(err)
-    } 
-  } 
-
-  setPendingPresences = (event) => {
-    try{
-        if(event.presents == ""){
-          this.setState({ pendingPresences: this.state.totalConfirmed })
-        } else {
-          this.setState({ pendingPresences: (this.state.totalConfirmed - this.state.confirmedPresences )})
-        }
-      } catch (err) {
-      console.log(err);
     }
   }
 
-  setConfirmedPresences = (event) => {
+  setTotalPresents = (presents) => {
     try{
+      let totalPresents = 0;
+      presents.map(() => totalPresents++);
 
-      if(event.presents == ""){
-        this.setState({ confirmedPresences: 0 })
-      }else{
-        //this.setState({ confirmedPresences:  })
-      }
+      this.setState({ totalPresents })
 
-    } catch(err){
-      console.log(err);
-    }
-  }
-
-  handleFrequencyStatus = (eventInformation) => {
-    try{
-      console.log(eventInformation)
-
-    
-    } catch(err){
+    } catch (err) {
       console.log(err)
     }
   }
 
 
+  handleFrequencyStatus = (userId) => {
+    try{
+      let isPresent = false
 
-  handleFrequencyList = async e => {
+      this.state.event.presents.map(present => {
+        if(present._id === userId){
+          isPresent = true
+        }
+      })
+
+      return isPresent ?
+      <button className="btn btn-success">Confirmed</button>
+      : <button className="btn btn-info" onClick={() => this.handleConfirmPresence(userId)}>Confirm Presence</button>
+
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+  handleFrequencyList = () => {
     try {
       if (this.state.event.confirmedEnrolleds.length < 1) {
         this.setState({ message: "Empty list! :(" });
@@ -104,12 +103,24 @@ class FrequencyList extends Component {
     }
   };
 
+  renderListConfirmedEnrolleds = () => {
+    return(
+      this.state.confirmedEnrolleds.map(enrolled => (
+        <>
+        <div className="row">
+          <p className="mr-5">{enrolled.email}</p>
+          {this.handleFrequencyStatus(enrolled._id)}
+        </div>
+        <hr />
+        </>
+      ))
+    )
+  }
+
   render() {
     return (
       <Main>
-        
-          
-          
+          <h1 className="text-center mb-5">{this.state.event.name}</h1>
           <div className="row">
             <div className="col-xl-12 col-md-12 mb-4">
               <div className="card border-left-info shadow h-100 py-2">
@@ -126,35 +137,16 @@ class FrequencyList extends Component {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="row">
-            <div className="col-xl-6 col-md-6 mb-4">
-              <div className="card border-left-warning shadow h-100 py-2">
+            <div className="col-xl-12 col-md-12 mb-4">
+              <div className="card border-left-info shadow h-100 py-2">
                 <div className="card-body">
                   <div className="row no-gutters align-items-center">
                     <div className="col mr-2">
-                      <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Presences</div>
-                      <div className="h5 mb-0 font-weight-bold text-gray-800">{this.state.pendingPresences}</div>
+                      <div className="text-xs font-weight-bold text-info text-uppercase mb-1">Total Presents</div>
+                      <div className="h5 mb-0 font-weight-bold text-gray-800">{this.state.totalPresents}</div>
                     </div>
                     <div className="col-auto">
-                      <i className="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-xl-6 col-md-6 mb-4">
-              <div className="card border-left-success shadow h-100 py-2">
-                <div className="card-body">
-                  <div className="row no-gutters align-items-center">
-                    <div className="col mr-2">
-                      <div className="text-xs font-weight-bold text-success text-uppercase mb-1">Confirmed Presences</div>
-                      <div className="h5 mb-0 font-weight-bold text-gray-800">{this.state.confirmedPresences}</div>
-                    </div>
-                    <div className="col-auto">
-                      <i className="fas fa-check-double fa-2x text-gray-300"></i>
+                      <i className="fas fa-info-circle fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -167,28 +159,14 @@ class FrequencyList extends Component {
               <h6 className="m-0 font-weight-bold text-primary">Frequency List</h6>
             </div>
             <div className="card-body">
-              
                 <div className="row">
                   <div className="col-xl-4 col-md-4 mb-2 mt-2">
-                    {this.handleFrequencyStatus(this.state.event.confirmedEnrolleds)}
-                  </div>
-                  <div className="col-xl-4 col-md-4 mb-2 mt-2 ">
-                    status
-                  </div>
-                  <div className="col-xl-4 col-md-4 mb-2 mt-2">
-                    <button className="btn btn-block btn-info" onClick={() => this.handleConfirmPresence()}>Confirm Presence</button>
+                    {this.renderListConfirmedEnrolleds()}
                   </div>
                 </div>
-              
+
             </div>
-          </div>  
-          {/*
-          console.log(this.state.event.confirmedEnrolleds)
-          this.state.event.confirmedEnrolleds.map( user => (
-            <p>{user.email}</p>
-            // {this.handleFrequencyStatus(user._id)}
-          ))*/
-        }
+          </div>
       </Main>
     );
   }

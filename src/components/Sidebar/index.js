@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { logout } from "../../services/auth";
+import api from "../../services/api";
 
 class Sidebar extends Component {
+
+  state = {
+    user: []
+  }
+
+  componentDidMount = async () => {
+    const response = await api.get('/users/getId')
+    const userId = response.data
+    const response_user = await api.get(`users/${userId}`)
+
+    this.setState({ user: response_user.data })
+  }
 
   handleLogout = async props => {
     try {
@@ -29,20 +42,26 @@ class Sidebar extends Component {
             <Link className="text-decoration-none text-white" to="/">Home</Link>
           </span>
         </li>
-        <hr className="sidebar-divider" />
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i className="fas fa-fw fa-cog"></i>
-            <span>Administrator</span>
-          </a>
-          <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div className="bg-white py-2 collapse-inner rounded">
-              <Link className="text-decoration-none" to="/admin/events"><span className="collapse-item">Events</span></Link>
-              <Link className="text-decoration-none" to="/admin/events/create"><span className="collapse-item">New Event</span></Link>
+
+        {this.state.user.role == 'admin' &&
+          <>
+          <hr className="sidebar-divider" />
+          <li className="nav-item">
+            <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+              aria-expanded="true" aria-controls="collapseTwo">
+              <i className="fas fa-fw fa-cog"></i>
+              <span>Administrator</span>
+            </a>
+            <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+              <div className="bg-white py-2 collapse-inner rounded">
+                <Link className="text-decoration-none" to="/admin/events"><span className="collapse-item">Events</span></Link>
+                <Link className="text-decoration-none" to="/admin/events/create"><span className="collapse-item">New Event</span></Link>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
+          </>
+        }
+
         <hr className="sidebar-divider" />
         <li className="nav-item">
           <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -52,7 +71,7 @@ class Sidebar extends Component {
           </a>
           <div id="collapseUtilities" className="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
-            <div className="bg-white py-2 collapse-inner rounded">            
+            <div className="bg-white py-2 collapse-inner rounded">
               <Link className="text-decoration-none" to="/user/events"><span className="collapse-item">My events</span></Link>
               <Link className="text-decoration-none" to="/user/settings"><span className="collapse-item">Settings</span></Link>
               <Link className="text-decoration-none" to="/"><span className="collapse-item" onClick={this.handleLogout}>Logout</span></Link>
